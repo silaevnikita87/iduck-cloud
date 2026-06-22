@@ -28,7 +28,13 @@ app.post('/chat', async (req, res) => {
     const result = await ai.models.generateContent({
       model: MODEL,
       contents: text,
-      config: { systemInstruction: SYSTEM, temperature: 0.8, maxOutputTokens: 200 },
+      config: {
+        systemInstruction: SYSTEM,
+        temperature: 0.8,
+        maxOutputTokens: 600,
+        thinkingConfig: { thinkingBudget: 0 },
+        tools: [{ googleSearch: {} }],
+      },
     });
     const reply = (result.text || '').trim() || "Quack! I didn't quite catch that.";
     res.json({ reply });
